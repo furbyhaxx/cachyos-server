@@ -4,12 +4,12 @@
 echo "--> Configuring CachyOS repositories"
 curl https://mirror.cachyos.org/cachyos-repo.tar.xz -o cachyos-repo.tar.xz
 tar xvf cachyos-repo.tar.xz && cd cachyos-repo
-sudo ./cachyos-repo.sh
+yes | sudo ./cachyos-repo.sh
 
 # rate mirrors to speed up further pacman calls
 echo "--> Rating mirrors"
 sudo pacman -S --noconfirm paru cachyos-rate-mirrors
-cachyos-rate-mirrors
+yes | cachyos-rate-mirrors
 
 # modify pacman.conf
 echo "--> Modifying pacman.conf"
@@ -20,7 +20,7 @@ sudo sed -i 's/^ParallelDownloads = 5/ParallelDownloads = 15/' /etc/pacman.conf
 
 # update system
 echo "--> Performing system upgrade"
-paru --noconfirm
+yes | paru --noconfirm
 
 # modify os-release file
 echo "--> Modifying os-release file"
@@ -50,7 +50,7 @@ EOF'
 
 # install packages
 echo "--> Installing packages"
-sudo pacman -S --noconfirm tree which nano paru micro snapper fastfetch chwd libselinux libsepol sudo wget curl fail2ban git less \
+yes | sudo pacman -S --noconfirm tree which nano paru micro snapper fastfetch chwd libselinux libsepol sudo wget curl fail2ban git less \
      cachyos-hooks cachyos-hooks cachyos-hooks cachyos-hooks cachyos-settings cachyos-snapper-support cachyos-v3-mirrorlist cachyos-v4-mirrorlist \
      fish firewalld netcat linux-cachyos-server-lto linux-cachyos-server-lto-headers
 
