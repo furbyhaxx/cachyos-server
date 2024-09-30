@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# run with: wget https://raw.githubusercontent.com/furbyhaxx/cachyos-server/refs/heads/main/configure_server.sh && chmod +x && ./configure_server.sh
+
 # performs basic configuration of a public facing cachyos-server
 
 # Log a message before each command runs
@@ -57,7 +59,7 @@ ask_yes_no() {
 }
 
 
-sudo mv /etc/motd /etc/motd.original
+sudo mv /etc/motd /etc/motd.original 2&>1 >> /dev/null
 OLD_HOSTNAME=$(hostname)
 OLD_TLD=$(hostname -d)
 HOSTNAME=$(ask_for "Enter hostname without TLD", $OLD_HOSTNAME)
