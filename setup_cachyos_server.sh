@@ -1,7 +1,6 @@
 #!/bin/bash
 
-# run with
-# curl -s https://raw.githubusercontent.com/furbyhaxx/cachyos-server/refs/heads/main/configure_server.sh | bash
+# run with: wget https://raw.githubusercontent.com/furbyhaxx/cachyos-server/refs/heads/main/setup_cachyos_server.sh && chmod +x ./setup_cachyos_server && ./setup_cachyos_server.sh
 
 # enable cachyos repositories
 echo "--> Configuring CachyOS repositories"
