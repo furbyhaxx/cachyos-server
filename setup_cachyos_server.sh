@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# run with
+# curl -s https://raw.githubusercontent.com/furbyhaxx/cachyos-server/refs/heads/main/configure_server.sh | bash
+
 # enable cachyos repositories
 echo "--> Configuring CachyOS repositories"
 curl https://mirror.cachyos.org/cachyos-repo.tar.xz -o cachyos-repo.tar.xz
@@ -88,7 +91,7 @@ sudo chmod 0644 /etc/passwd
 
 echo "--> Fix pacman hooks"
 sudo mkdir -p /etc/pacman.d/hooks/
-sudo bash -c 'cat << EOF > /etc/pacman.d/hooks/99-grub-install.hook
+sudo bash -c "cat << EOF > /etc/pacman.d/hooks/99-grub-install.hook
 [Trigger]
 Operation = Install
 Operation = Upgrade
@@ -105,6 +108,6 @@ Description = Updating GRUB after kernel installation...
 When = PostTransaction
 Exec = /bin/sh -c 'grub-mkconfig -o /boot/grub/grub.cfg'
 
-EOF'
+EOF"
 
-
+echo "--> DONE"
