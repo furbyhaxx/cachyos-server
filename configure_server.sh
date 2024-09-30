@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# run with: wget https://raw.githubusercontent.com/furbyhaxx/cachyos-server/refs/heads/main/configure_server.sh && chmod +x && ./configure_server.sh
+# run with: wget https://raw.githubusercontent.com/furbyhaxx/cachyos-server/refs/heads/main/configure_server.sh && chmod +x ./configure_server.sh && ./configure_server.sh
 
 # performs basic configuration of a public facing cachyos-server
 
