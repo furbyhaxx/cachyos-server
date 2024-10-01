@@ -1,6 +1,10 @@
 #!/bin/bash
 
-# run with: wget https://raw.githubusercontent.com/furbyhaxx/cachyos-server/refs/heads/main/setup_cachyos_server.sh && chmod +x ./setup_cachyos_server && ./setup_cachyos_server.sh
+# run with: wget https://raw.githubusercontent.com/furbyhaxx/cachyos-server/refs/heads/main/setup_cachyos_server.sh && chmod +x ./setup_cachyos_server.sh && ./setup_cachyos_server.sh
+
+is_container() {
+     grep -sq 'docker\|lxc\|pod\|kube' /proc/1/environ;
+}
 
 # enable cachyos repositories
 echo "--> Configuring CachyOS repositories"
@@ -52,9 +56,15 @@ EOF'
 
 # install packages
 echo "--> Installing packages"
-yes | sudo pacman -S --noconfirm tree which nano paru micro snapper fastfetch chwd libselinux libsepol sudo wget curl fail2ban git less \
-     cachyos-hooks cachyos-hooks cachyos-hooks cachyos-hooks cachyos-settings cachyos-snapper-support cachyos-v3-mirrorlist cachyos-v4-mirrorlist \
-     fish firewalld netcat linux-cachyos-server-lto linux-cachyos-server-lto-headers
+yes | sudo pacman -S --noconfirm tree which nano paru micro fastfetch udo wget curl fail2ban git less fish firewalld netcat \
+     cachyos-keyring cachyos-hooks cachyos-mirrorlist achyos-settings cachyos-v3-mirrorlist cachyos-v4-mirrorlist \
+      
+
+if ! $(is_container); then
+     # not running in a container
+     # installing bare metal packages
+     yes | sudo pacman -S --noconfirm snapper chwd libselinux libsepol cachyos-snapper-support linux-cachyos-server-lto linux-cachyos-server-lto-headers
+fi
 
 echo "--> Allow 'wheel' group to sudo"
 sudo chmod 0770 /etc/sudoers
@@ -88,9 +98,11 @@ sudo chmod 0770 /etc/passwd
 sudo sed -i.bak 's|^\(root:[^:]*:[^:]*:[^:]*:[^:]*:[^:]*\):/bin/bash|\1:/bin/fish|' /etc/passwd
 sudo chmod 0644 /etc/passwd
 
-echo "--> Fix pacman hooks"
-sudo mkdir -p /etc/pacman.d/hooks/
-sudo bash -c "cat << EOF > /etc/pacman.d/hooks/99-grub-install.hook
+if ! $(is_container); then
+     # not running in a container
+     echo "--> Fix pacman hooks"
+     sudo mkdir -p /etc/pacman.d/hooks/
+     sudo bash -c "cat << EOF > /etc/pacman.d/hooks/99-grub-install.hook
 [Trigger]
 Operation = Install
 Operation = Upgrade
@@ -108,5 +120,8 @@ When = PostTransaction
 Exec = /bin/sh -c 'grub-mkconfig -o /boot/grub/grub.cfg'
 
 EOF"
+fi
+
+
 
 echo "--> DONE"
