@@ -56,7 +56,7 @@ EOF'
 
 # install packages
 echo "--> Installing packages"
-yes | sudo pacman -S --noconfirm tree which nano paru micro fastfetch udo wget curl fail2ban git less fish firewalld netcat \
+yes | sudo pacman -S --noconfirm tree which nano paru micro fastfetch sudo wget curl fail2ban git less fish firewalld netcat \
      cachyos-keyring cachyos-hooks cachyos-mirrorlist achyos-settings cachyos-v3-mirrorlist cachyos-v4-mirrorlist \
       
 
